@@ -1,17 +1,58 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link>
-      <router-link to="/register">Register</router-link>
+    <div class="container p-0">
+      <NavBar />
+      <router-view @login="handleLogin" @register="handleRegister" />
     </div>
-    <router-view />
   </div>
 </template>
 
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+<script>
+import NavBar from '@/components/NavBar'
+export default {
+  name: 'App',
+  components: {
+    NavBar,
+  },
+  data() {
+    return {
+      user: null,
+    }
+  },
+  methods: {
+    async handleLogin(inputs) {
+      const response = await fetch('http://167.99.138.67:1111/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(inputs),
+      })
+      const data = await response.json()
+      if (data.success) {
+        this.user = {
+          name: inputs.name,
+          secretKey: data.secretKey,
+        }
+        localStorage.setItem('user', this.user)
+        this.$router.push('/')
+      }
+    },
+    async handleRegister(inputs) {
+      const response = await fetch('http://167.99.138.67:1111/createaccount', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(inputs),
+      })
+      const data = await response.json()
+      if (data.success) {
+        this.$router.push('/login')
+      }
+    },
+  },
 }
-</style>
+</script>
+
+<style scoped></style>
