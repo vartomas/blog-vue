@@ -15,7 +15,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <form class="d-flex me-auto mb-2 mb-lg-0" @submit.prevent="handleSearch">
+          <form class="d-flex me-auto mb-2 mt-4 mb-lg-0 mt-lg-0" @submit.prevent="handleSearch">
             <input
               class="form-control me-2"
               type="search"

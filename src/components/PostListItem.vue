@@ -27,6 +27,7 @@
             type="button"
             class="btn btn-outline-warning mx-3"
             v-if="author(post.username) === 'You'"
+            @click="handleEditBtn"
           >
             Edit
           </button>
@@ -123,6 +124,9 @@ export default {
     },
     handleReadBtn() {
       this.$router.push(`/post/${this.post.username}/${this.post.id}`)
+    },
+    handleEditBtn() {
+      this.$router.push(`/editpost/${this.post.username}/${this.post.id}`)
     },
   },
 }

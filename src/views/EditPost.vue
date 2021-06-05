@@ -1,11 +1,11 @@
 <template>
-  <CreateNewEditPost />
+  <CreateNewEditPost :author="this.$route.params.author" :postId="this.$route.params.id" />
 </template>
 
 <script>
 import CreateNewEditPost from '@/components/CreateNewEditPost'
 export default {
-  name: 'CreatePost',
+  name: 'EditPost',
   components: {
     CreateNewEditPost,
   },

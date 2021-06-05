@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-3 me-auto">
-    <h2>Create post</h2>
-    <form @submit.prevent="handleCreate">
+    <h2>{{ headerText }}</h2>
+    <form @submit.prevent="handleSubmit">
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Title</label>
         <input
@@ -32,7 +32,7 @@
       ></textarea>
       <div class="d-flex flex-column justify-content-center align-items-center">
         <p class="text-danger fs-5 mt-3">{{ errorText }}</p>
-        <button type="submit" class="btn-lg btn-primary m-3">Create Post</button>
+        <button type="submit" class="btn-lg btn-primary m-3">{{ btnText }}</button>
       </div>
     </form>
   </div>
@@ -40,7 +40,8 @@
 
 <script>
 export default {
-  name: 'CreateNewPost',
+  name: 'CreateNewEditPost',
+  props: ['author', 'postId'],
   data() {
     return {
       inputs: {
@@ -59,8 +60,34 @@ export default {
     } else {
       this.$router.push('/')
     }
+    if (this.author && this.postId) {
+      this.getPost()
+    }
+  },
+  computed: {
+    btnText() {
+      if (this.author && this.postId) {
+        return 'Save post'
+      } else {
+        return 'Create post'
+      }
+    },
+    headerText() {
+      if (this.author && this.postId) {
+        return 'Edit post'
+      } else {
+        return 'Create new post'
+      }
+    },
   },
   methods: {
+    handleSubmit() {
+      if (this.author && this.postId) {
+        this.handleEditPost()
+      } else {
+        this.handleCreate()
+      }
+    },
     async handleCreate() {
       this.errorText = ''
       const response = await fetch('http://167.99.138.67:1111/createpost', {
@@ -69,6 +96,30 @@ export default {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ ...this.inputs, secretKey: this.secretKey }),
+      })
+      const data = await response.json()
+      if (data.success) {
+        this.$router.push('/')
+      } else {
+        this.errorText = data.message
+      }
+    },
+    async getPost() {
+      const response = await fetch(
+        `http://167.99.138.67:1111/getsinglepost/${this.author}/${this.postId}`
+      )
+      const { data } = await response.json()
+      this.inputs.title = data.title
+      this.inputs.image = data.image
+      this.inputs.description = data.description
+    },
+    async handleEditPost() {
+      const response = await fetch('http://167.99.138.67:1111/updatepost', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ...this.inputs, secretKey: this.secretKey, id: this.postId }),
       })
       const data = await response.json()
       if (data.success) {
