@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <div class="container p-0">
-      <NavBar />
-      <router-view @login="handleLogin" @register="handleRegister" />
+      <NavBar :user="user" @logout="logout" />
+      <router-view :key="$route.path" @login="value => (this.user = value)" />
     </div>
   </div>
 </template>
@@ -19,37 +19,13 @@ export default {
       user: null,
     }
   },
+  mounted() {
+    this.user = JSON.parse(localStorage.getItem('user')) || null
+  },
   methods: {
-    async handleLogin(inputs) {
-      const response = await fetch('http://167.99.138.67:1111/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(inputs),
-      })
-      const data = await response.json()
-      if (data.success) {
-        this.user = {
-          name: inputs.name,
-          secretKey: data.secretKey,
-        }
-        localStorage.setItem('user', this.user)
-        this.$router.push('/')
-      }
-    },
-    async handleRegister(inputs) {
-      const response = await fetch('http://167.99.138.67:1111/createaccount', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(inputs),
-      })
-      const data = await response.json()
-      if (data.success) {
-        this.$router.push('/login')
-      }
+    logout() {
+      localStorage.clear()
+      this.user = null
     },
   },
 }

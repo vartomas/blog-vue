@@ -15,6 +15,26 @@ const routes = [
     name: 'Register',
     component: () => import('../views/Register.vue'),
   },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('../views/Login.vue'),
+  },
+  {
+    path: '/createpost',
+    name: 'Create',
+    component: () => import('../views/CreatePost.vue'),
+  },
+  {
+    path: '/particularposts/:search',
+    name: 'ParticularPosts',
+    component: () => import('../views/ParticularPosts.vue'),
+  },
+  {
+    path: '/post/:author/:id',
+    name: 'Post',
+    component: () => import('../views/Post.vue'),
+  },
 ]
 
 const router = new VueRouter({

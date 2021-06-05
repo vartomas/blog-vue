@@ -1,15 +1,15 @@
 <template>
-  <div class="home">
-    <Posts />
-  </div>
+  <Posts :search="this.$route.params.search" />
 </template>
 
 <script>
 import Posts from '@/components/Posts'
 export default {
-  name: 'Home',
+  name: 'ParticularPosts',
   components: {
     Posts,
   },
 }
 </script>
+
+<style scoped></style>

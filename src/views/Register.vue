@@ -1,3 +1,15 @@
 <template>
-  <div class="register"></div>
+  <RegisterForm />
 </template>
+
+<script>
+import RegisterForm from '@/components/RegisterForm'
+export default {
+  name: 'Register',
+  components: {
+    RegisterForm,
+  },
+}
+</script>
+
+<style scoped></style>
