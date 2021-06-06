@@ -29,10 +29,6 @@ export default {
     this.post = data.data
   },
   methods: {
-    handleGoBack() {
-      console.log(this.$router)
-      // this.$router.push(this.$route.from.path)
-    },
     formatDate(date) {
       const yyyy = new Date(date).getFullYear()
       const mm = String(new Date(date).getMonth() + 1)

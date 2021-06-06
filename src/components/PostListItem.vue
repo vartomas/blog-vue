@@ -1,5 +1,5 @@
 <template>
-  <div class="card mt-3 shadow-sm">
+  <div class="card mb-2 shadow-sm">
     <div class="row g-0">
       <div class="col-md-4">
         <div class="image" :style="{ backgroundImage: `url('${post.image}')` }"></div>

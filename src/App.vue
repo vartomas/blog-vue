@@ -1,10 +1,10 @@
 <template>
-  <div id="app">
+  <main id="app">
     <div class="container p-0">
       <NavBar :user="user" @logout="logout" />
       <router-view :key="$route.path" @login="value => (this.user = value)" />
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -30,5 +30,3 @@ export default {
   },
 }
 </script>
-
-<style scoped></style>
