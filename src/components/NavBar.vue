@@ -3,18 +3,14 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
         <router-link class="navbar-brand" to="/">Blog</router-link>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
+        <button class="navbar-toggler" type="button" @click="toggleNav">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div
+          class="collapse navbar-collapse"
+          :class="{ show: navOpen }"
+          id="navbarSupportedContent"
+        >
           <form class="d-flex me-auto mb-2 mt-4 mb-lg-0 mt-lg-0" @submit.prevent="handleSearch">
             <input
               class="form-control me-2"
@@ -28,12 +24,12 @@
             </button>
           </form>
           <ul class="navbar-nav me-auto mb-2 mb-lg-0" v-if="user">
-            <li class="nav-item">
+            <li class="nav-item" @click="toggleNav">
               <router-link class="nav-link active" aria-current="page" to="/createpost">
                 Create post
               </router-link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" @click="toggleNav">
               <router-link
                 class="nav-link active"
                 aria-current="page"
@@ -44,12 +40,12 @@
             </li>
           </ul>
           <ul class="navbar-nav me-1 mb-2 mb-lg-0" v-if="!user">
-            <li class="nav-item">
+            <li class="nav-item" @click="toggleNav">
               <router-link class="nav-link active" aria-current="page" to="/login">
                 Login
               </router-link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" @click="toggleNav">
               <router-link class="nav-link active" aria-current="page" to="/register">
                 Register
               </router-link>
@@ -57,7 +53,7 @@
           </ul>
           <div v-if="user" class="d-flex align-items-center mb-2 mb-lg-0">
             <p class="m-0 me-2 flex-grow-1">{{ user.name }}</p>
-            <button class="btn btn-outline-danger me-1" @click="$emit('logout')">Logout</button>
+            <button class="btn btn-outline-danger me-1" @click="handleLogout">Logout</button>
           </div>
         </div>
       </div>
@@ -72,6 +68,7 @@ export default {
   data() {
     return {
       search: '',
+      navOpen: false,
     }
   },
   methods: {
@@ -84,6 +81,14 @@ export default {
           console.log(error)
         }
       })
+      this.toggleNav()
+    },
+    handleLogout() {
+      this.toggleNav()
+      this.$emit('logout')
+    },
+    toggleNav() {
+      this.navOpen = !this.navOpen
     },
   },
 }
